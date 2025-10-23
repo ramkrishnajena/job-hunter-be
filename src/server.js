@@ -21,3 +21,12 @@ app.use("/api/v1/job-hunter/crawl", crawlRoute);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// ✅ Start scheduler automatically on server start
+import("./scripts/scheduleCrawler.js")
+  .then(() => {
+    console.log("🕒 Scheduler initialized successfully!");
+  })
+  .catch((err) => {
+    console.error("❌ Failed to start scheduler:", err);
+  });
