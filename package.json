@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/server.js"
+    "dev": "nodemon ./src/server.js",
+    "prisma:migrate": "npx prisma migrate dev --name init"
   },
   "repository": {
     "type": "git",

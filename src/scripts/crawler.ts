@@ -79,6 +79,6 @@ async function crawlRemoteOK() {
 crawlRemoteOK()
   .then(() => process.exit(0))
   .catch((err) => {
-    console.error("❌ Crawler error:", err);
+    console.error("Crawler error:", err);
     process.exit(1);
   });
