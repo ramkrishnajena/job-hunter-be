@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: job-hunter-fe
+  labels:
+    app: job-hunter-fe
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: job-hunter-fe
+  template:
+    metadata:
+      labels:
+        app: job-hunter-fe
+    spec:
+      containers:
+        - name: job-hunter-fe
+          image: ghcr.io/open-source-ideas/job-hunter-fe:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: NEXT_PUBLIC_API_BASE_URL
+              value: "http://job-hunter-api/api/v1/job-hunter"
+              
