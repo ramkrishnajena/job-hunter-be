@@ -12,12 +12,16 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --production
 
+RUN npx install playwright
+
 
 # Copy the rest of the application
 COPY . .
 
 #do prisma migrations
-RUN cd src/prisma && npx prisma generate
+WORKDIR /app/src/prisma
+RUN npx prisma generate
+WORKDIR /app
 # Set environment to production
 ENV NODE_ENV=production
 ENV APP_PORT=80
