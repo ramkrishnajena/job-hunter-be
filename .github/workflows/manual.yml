@@ -32,6 +32,8 @@ jobs:
       # -----------------------------------------------------
       - name: Install dependencies
         run: npm install
+      - name: install playright
+        run:  npx playwright install             
 
       # Optional — run tests if you have them
       # - name: Run tests
