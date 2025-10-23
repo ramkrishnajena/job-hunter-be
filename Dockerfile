@@ -17,7 +17,7 @@ RUN npm install --production
 COPY . .
 
 #do prisma migrations
-RUN npm run prisma:migrate
+RUN cd src/prisma && npx prisma generate
 # Set environment to production
 ENV NODE_ENV=production
 ENV APP_PORT=80
