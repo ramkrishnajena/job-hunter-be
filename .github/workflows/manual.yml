@@ -31,9 +31,7 @@ jobs:
       # 3️⃣ Install Dependencies (for validation)
       # -----------------------------------------------------
       - name: Install dependencies
-        run: npm install
-      - name: install playright
-        run:  npx playwright install             
+        run: npm install           
 
       # Optional — run tests if you have them
       # - name: Run tests
