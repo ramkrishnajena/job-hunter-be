@@ -1,0 +1,16 @@
+# ----------------------------------------
+# 🌐 postgresql-service.yaml
+# ----------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+spec:
+  type: ClusterIP  # Internal access only (change to NodePort if needed externally)
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgresql

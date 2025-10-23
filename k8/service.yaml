@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: job-hunter-fe   
+  name: job-hunter-be   
   labels:
-    app: job-hunter-fe
+    app: job-hunter-be
 spec:
   selector:
-    app: job-hunter-fe
+    app: job-hunter-be
   ports:    
     - protocol: TCP
       port: 80

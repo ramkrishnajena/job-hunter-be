@@ -1,25 +1,30 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: job-hunter-fe
+  name: job-hunter-be
   labels:
-    app: job-hunter-fe
+    app: job-hunter-be
 spec:
   replicas: 1 
   selector:
     matchLabels:
-      app: job-hunter-fe
+      app: job-hunter-be
   template:
     metadata:
       labels:
-        app: job-hunter-fe
+        app: job-hunter-be
     spec:
       containers:
-        - name: job-hunter-fe
-          image: ghcr.io/open-source-ideas/job-hunter-fe:latest
+        - name: job-hunter-be
+          image: docker.io/krushna377/job-hunter-be:99a2d29
           ports:
             - containerPort: 80
           env:
-            - name: NEXT_PUBLIC_API_BASE_URL
-              value: "http://job-hunter-api/api/v1/job-hunter"
+            - name: APP_PORT
+              value: "80"
+            - name: DATABASE_URL
+              value: "postgresql://admin:admin123@job-hunter-db:5432/job_hunter_db"
+            - name: NODE_ENV
+              value: "production"  
+               
               
