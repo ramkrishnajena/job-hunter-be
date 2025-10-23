@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon ./src/server.js",
-    "prisma:migrate": "npx prisma migrate dev --name init"
+    "prisma:migrate": "cd ./src/prisma && npx prisma migrate dev --name init",
+    "crawl": "node ./src/scripts/crawler.js",
+    "schedule": "node ./src/scripts/scheduleCrawler.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "node-cron": "^4.2.1",
     "playwright": "^1.56.1",
     "prisma": "^6.18.0"
   },

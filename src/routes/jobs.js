@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { prisma } from "../lib/prisma";
-import { getPagination } from "../utils/pagination";
-
+import { getPagination } from "../utils/utils.js";
+import { prisma } from "../lib/prisma.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
@@ -16,6 +15,8 @@ router.get("/", async (req, res) => {
       limit = "10",
     } = req.query;
 
+    console.log(search);
+
     const pageNum = Number.parseInt(page);
     const limitNum = Number.parseInt(limit);
     const { skip, take } = getPagination(pageNum, limitNum);
@@ -25,25 +26,27 @@ router.get("/", async (req, res) => {
         search
           ? {
               OR: [
-                { title: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
+                { title: { contains: search, lte: "insensitive" } },
+                { description: { contains: search, lte: "insensitive" } },
               ],
             }
           : {},
-        company ? { company: { contains: company, mode: "insensitive" } } : {},
+        company ? { company: { contains: company, lte: "insensitive" } } : {},
         location
-          ? { location: { contains: location, mode: "insensitive" } }
+          ? { location: { contains: location, lte: "insensitive" } }
           : {},
-        tag ? { tags: { contains: tag, mode: "insensitive" } } : {},
+        tag ? { tags: { contains: tag, lte: "insensitive" } } : {},
       ],
     };
 
-    const orderBy =
-      sort === "company"
-        ? { company: "asc" }
-        : sort === "oldest"
-        ? { postedAt: "asc" }
-        : { postedAt: "desc" };
+    let orderBy;
+    if (sort === "company") {
+      orderBy = { company: "asc" };
+    } else if (sort === "oldest") {
+      orderBy = { postedAt: "asc" };
+    } else {
+      orderBy = { postedAt: "desc" };
+    }
 
     const [jobs, total] = await Promise.all([
       prisma.job.findMany({
