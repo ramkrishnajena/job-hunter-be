@@ -12,11 +12,12 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --production
 
-RUN npm run prisma:migrate
 
 # Copy the rest of the application
 COPY . .
 
+#do prisma migrations
+RUN npm run prisma:migrate
 # Set environment to production
 ENV NODE_ENV=production
 ENV APP_PORT=80
