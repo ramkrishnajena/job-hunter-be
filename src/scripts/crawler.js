@@ -14,7 +14,7 @@ async function crawlRemoteOK() {
   const page = await browser.newPage();
 
   await page.goto(REMOTEOK_URL, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector("tr.job[data-id]", { timeout: 10000 });
+  await page.waitForSelector("tr.job[data-id]", { timeout: 20000 });
 
   // Extract job listings
   const jobs = await page.$$eval("tr.job[data-id]", (rows) =>
