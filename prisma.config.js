@@ -1,12 +1,14 @@
-import { defineConfig, env } from "prisma/config";
+import path from "path";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 
-export default defineConfig({
-  schema: "prisma/schema.prisma",
-  migrations: {
-    path: "prisma/migrations",
-  },
-  engine: "classic",
-  datasource: {
-    url: env("DATABASE_URL"),
-  },
-});
+// ESM doesn’t have __dirname by default
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+
+export default {
+  schema: path.resolve(__dirname, "src/prisma/schema.prisma"),
+};

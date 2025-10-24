@@ -1,33 +1,37 @@
 # -----------------------------------------------------
-# 🏗️ 1. Base Image
+# 🏗️ 1. Base Image (Node + Playwright)
 # -----------------------------------------------------
-FROM node:20-alpine
+FROM mcr.microsoft.com/playwright:v1.56.1-jammy
 
 # Set working directory
 WORKDIR /app
 
-# Copy only package files first (better layer caching)
+# Copy package files first for better layer caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --production
+# Install all dependencies (including dev for Prisma CLI)
+RUN npm install
 
-RUN npx playwright install     
-
-
-# Copy the rest of the application
+# Copy rest of the project files
 COPY . .
 
-#do prisma migrations
-WORKDIR /app/src/prisma
-RUN npx prisma generate
-WORKDIR /app
-# Set environment to production
+# Ensure SQLite folder exists for Prisma DB
+RUN mkdir -p /app/src/prisma
+
+# Environment variables
 ENV NODE_ENV=production
+ENV DATABASE_URL="file:./src/prisma/job_hunter.db"
 ENV APP_PORT=80
 
-# Expose the app port (change if your app uses a different one)
+# Generate Prisma client
+RUN npx prisma generate
+
+# Expose app port
 EXPOSE 80
 
-# Run the app
-CMD ["npm", "run","dev"]
+# -----------------------------------------------------
+# 🚀 2. Run Migrations + Start Server
+# -----------------------------------------------------
+# - `migrate deploy` ensures schema is up-to-date in production
+# - `npm run start` should launch your server
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
